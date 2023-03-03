@@ -1,0 +1,39 @@
+{
+  "name": "certhis-wallet-react",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "main": "src/index.js",
+  "dependencies": {
+    "@certhis/certhis-wallet": "1.0.9",
+    "@coinbase/wallet-sdk": "3.6.3",
+    "@walletconnect/web3-provider": "1.8.0",
+    "csbbust": "1.0.1",
+    "ethers": "5.7.2",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-native-web": "0.18.12",
+    "react-scripts": "3.4.1",
+    "walletconnect": "1.7.8",
+    "web3": "1.8.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
