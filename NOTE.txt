@@ -1,0 +1,38 @@
+/profile
+
+profile.jade line 140:取得user account address
+
+function:
+window.ethereum.on('accountsChanged', ...
+web3.eth.getAccounts()
+
+—---------------------------—---------------------------
+
+/
+
+index.jade line 98,103:取得user account address
+
+function:
+window.ethereum.on('accountsChanged', ...
+web3.eth.getAccounts().then(...
+
+index.jade line 112:取得帳號對應的ID，進行簽名
+
+function:
+contractInstance.methods.getId().call({from: account}) // account由上方function取得
+web3.eth.personal.sign(result, account)
+
+—---------------------------—---------------------------
+
+/dataSharing
+
+dataSharing.jade line 133,152:取得user account address
+
+function:
+web3.eth.getAccounts().then(...
+window.ethereum.on('accountsChanged',...
+
+
+
+NOTE:
+/metamask-connect 好像都是用org的address在操作(未完全確認)
