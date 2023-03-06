@@ -1,1 +1,11 @@
-node_modules/
+/.vscode/
+
+express/node_modules/
+express/build/
+express/react_build/
+express/views/index.jade
+
+react/node_modules/
+react/build/
+react/react_build/
+react/.codesandbox/
