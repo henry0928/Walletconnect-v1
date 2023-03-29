@@ -28,7 +28,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "dev": "webpack-dev-server --devtool eval --progress"
+    "dev": "webpack -p"
   },
   "browserslist": {
     "production": [
