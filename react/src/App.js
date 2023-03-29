@@ -3,6 +3,7 @@ import { Button, Image, StyleSheet, Text, View } from "react-native";
 import CoinbaseWalletSDK from "@coinbase/wallet-sdk";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { ethers } from "ethers";
+import $ from 'jquery' ;
 
 const Web3 = require("web3");
 let CerthisWalletLib = require("@certhis/certhis-wallet");
@@ -47,6 +48,22 @@ function App() {
     const signer = await wallet.getSigner();
     const message_sign = await signer.signMessage(message);
     setSignedMessage(message_sign);
+    $.ajax({
+      url: 'http://localhost:5001/',
+      data: { 
+        signature: message_sign,   // signature
+      },
+      type: 'post',
+      success: function(res) {
+        console.log("success");
+        console.log(res);
+        //window.location.href = "localhost:5001";
+      },
+      error: function(err) {
+        console.log("error");
+        alert();
+      }
+    }) ;
   };
 
   const handleWalletInfos = async () => {
