@@ -190,6 +190,9 @@ var provider = "";
 var walletEmail = "";
 
 const handleConnect = async () => {
+  // await CerthisWallet.disconnect();
+
+
   const get_provider = await CerthisWallet.run(
     "1",
     "https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161"
@@ -209,8 +212,12 @@ const handleConnect = async () => {
     setNetwork(networkId);
     setIsConnected(true);
     setWalletEmail(localStorage.getItem("WALLET_EMAIL"));
+
+    alert(account);
   }
 };
+
+
 
 alert('a');
 handleConnect();
