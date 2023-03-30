@@ -16,7 +16,7 @@ const handleConnect = async () => {
         const balanceInEther = web3.utils.fromWei(balanceInWei, "ether");
         const networkId = await web3.eth.net.getId();
         return new Promise((resolve) => {
-            resolve(provider);
+            resolve({ provider: provider, account: account });
         });
     }
 };
@@ -25,18 +25,18 @@ const handleLogout = async () => {
     await CerthisWallet.disconnect();
 }
 
-const handleSignMessage = async (provider, message) => {
-    const wallet = new ethers.providers.Web3Provider(provider);
+const handleSignMessage = async (res, message) => {
+    const wallet = new ethers.providers.Web3Provider(res.provider);
     const signer = await wallet.getSigner();
-    const signedMessage = await signer.signMessage(message);
+    const signature = await signer.signMessage(message);
+    const ret = { account: res.account, signature: signature };
+    alert(`${ret.account} ${ret.signature}`);
     return new Promise((resolve) => {
-        resolve(signedMessage);
+        resolve(ret);
     });
 };
 
 CerthisWallet.disconnect();
-handleConnect().then((res) => {
-    handleSignMessage(res, "12345").then((res) => {
-        alert(res);
-    });
+handleConnect().then(async (res) => {
+    return handleSignMessage(res, "12345");
 });
