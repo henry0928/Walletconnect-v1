@@ -3,7 +3,7 @@ import WalletConnectProvider from "@walletconnect/web3-provider";
 import { ethers } from "ethers";
 
 const Web3 = require("web3");
-let CerthisWalletLib = require("@certhis/certhis-wallet");
+let CerthisWalletLib = require("./@certhis/certhis-wallet");
 let CerthisWallet = CerthisWalletLib.init(Web3, CoinbaseWalletSDK, WalletConnectProvider);
 
 const handleConnect = async () => {
