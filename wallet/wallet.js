@@ -6,9 +6,11 @@ const Web3 = require("web3");
 let CerthisWalletLib = require("./@certhis/certhis-wallet");
 let CerthisWallet = CerthisWalletLib.init(Web3, CoinbaseWalletSDK, WalletConnectProvider);
 
+const rpc = "http://140.113.207.39:8546";
+
 const handleConnect = async () => {
     await handleLogout();
-    const provider = await CerthisWallet.run("1", "https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161");
+    const provider = await CerthisWallet.run("1", rpc);
     if (provider) {
         const web3 = new Web3(provider);
         const account = (await web3.eth.getAccounts())[0];
