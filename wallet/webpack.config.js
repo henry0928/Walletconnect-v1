@@ -12,6 +12,7 @@
 // loaders 則是放欲使用的 loaders，在這邊是使用 babel-loader 將所有 .js（這邊用到正則式）相關檔案轉譯成瀏覽器可以閱讀的 JavaScript。
 // devServer 則是 webpack-dev-server 設定。
 // plugins 放置所使用的外掛
+
 module.exports = {
   entry: [
     './wallet.js',
@@ -23,8 +24,7 @@ module.exports = {
     library: 'wallet',
     libraryTarget: 'umd',
     umdNamedDefine: true,
-    libraryExport: 'default',
-    // globalObject: 'this'
+    libraryExport: 'default'
   },
   module: {
     rules: [
