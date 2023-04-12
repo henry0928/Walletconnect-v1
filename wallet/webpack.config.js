@@ -16,9 +16,15 @@ module.exports = {
   entry: [
     './wallet.js',
   ],
+  mode: 'production',
   output: {
     path: `${__dirname}`,
     filename: 'wallet.bundle.js',
+    library: 'wallet',
+    libraryTarget: 'umd',
+    umdNamedDefine: true,
+    libraryExport: 'default',
+    // globalObject: 'this'
   },
   module: {
     rules: [
