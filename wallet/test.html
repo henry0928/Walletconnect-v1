@@ -11,9 +11,8 @@
     <script type="text/javascript" src="wallet.bundle.js"></script>
     <script>
         async function f() {
-            const temp = await wallet.run();
+            const temp = await wallet.connect();
             alert(temp.account);
-            alert(temp.signature);
         }
 
         f();
