@@ -15,6 +15,8 @@ module.exports = function (Web3, CoinbaseWalletSDK, WalletConnectProvider) {
     const CryptoJS = require("crypto-js");
     const rpcinfo = require("./rpc");
     var rpc_array = rpcinfo.rpc_array;
+    var dcsprovider;
+   
     return {
         walletInfos: async function () {
             const rpcinfo = require("./rpc");
@@ -281,6 +283,7 @@ module.exports = function (Web3, CoinbaseWalletSDK, WalletConnectProvider) {
                 var inputN = input.cloneNode(true);
                 input.parentNode.replaceChild(inputN, input);
                 inputN.addEventListener("input", function (event) {
+               		console.log("qrcode!");
                     var value = event.target.value;
                     if (value.length === 1) {
                         var nextInput = document.querySelector(
@@ -650,15 +653,19 @@ module.exports = function (Web3, CoinbaseWalletSDK, WalletConnectProvider) {
                     localStorage.getItem("RPC_ID_CERTHIS") != ""
                 ) {
                     var rpcId = localStorage.getItem("RPC_ID_CERTHIS");
+                    console.log("rpcid(1) not right"+rpcId) ;
                 } else {
                     var rpcId = rpc_id;
+                    console.log("rpcid(1):"+rpcId) ;
                     localStorage.setItem("RPC_ID_CERTHIS", rpc_id);
                 }
 
                 var boxCerthis = document.getElementById(id_insert);
 
                 if (localStorage.getItem("CONNECTED") == "true") {
+                    console.log("1111111111");
                     if (localStorage.getItem("WALLET_TYPE") == "METAMASK") {
+                        console.log("Metamask!") ;
                         const accounts = await window.ethereum.enable();
                         resolve(window.ethereum);
                     } else if (
@@ -676,36 +683,45 @@ module.exports = function (Web3, CoinbaseWalletSDK, WalletConnectProvider) {
                             rpcUrl,
                             rpcId
                         );
+                        console.log('1 provider.send');
                         await provider.send("eth_requestAccounts");
 
                         resolve(provider);
                     } else if (
                         localStorage.getItem("WALLET_TYPE") == "WALLETCONNECT"
                     ) {
-                        var provider = new InjectWalletConnect({
+                        /*var provider = new InjectWalletConnect({
                             infuraId: "56e93ff3382e494782c4d6e2d8d1c902", // Required
-                        });
+                        });*/
+                        console.log('2 provider.send');
+                        var provider = LoadCoinbase.makeWeb3Provider(
+                            rpcUrl,
+                            rpcId
+                        );
                         await provider.enable();
 
                         resolve(provider);
                     } else {
+                    	console.log('3 provider.send');
                         var getProvider = await providerFunction.getProvider(
                             rpcUrl,
                             localStorage.getItem("WALLET_CERTHIS"),
                             localStorage.getItem("WALLET_ECRYPTED_KEY")
                         );
-
+			console.log("getProvider = "+getProvider);
                         resolve(getProvider);
                     }
-
+			console.log('aaaaa');
                     if (boxCerthis) {
                         boxCerthis.style.display = "none";
                     }
                 } else if (
+                
                     ((!boxCerthis && id_insert == "popupCerthis") ||
                         (boxCerthis && id_insert != "popupCerthis")) &&
                     return_provider == null
                 ) {
+                    console.log("2222222") ;
                     if (id_insert == "popupCerthis") {
                         boxCerthis = document.createElement("div");
                         boxCerthis.style.position = "fixed";
@@ -851,6 +867,7 @@ module.exports = function (Web3, CoinbaseWalletSDK, WalletConnectProvider) {
                             `#${id_insert}-certhis-code-${i}`
                         );
                         input.addEventListener("input", function (event) {
+                        	console.log('input1');
                             const value = event.target.value;
                             if (value.length === 1) {
                                 const nextInput = document.querySelector(
@@ -869,6 +886,7 @@ module.exports = function (Web3, CoinbaseWalletSDK, WalletConnectProvider) {
                         });
 
                         input.addEventListener("keydown", function (event) {
+                        console.log('input2');
                             const previousInput = document.querySelector(
                                 `#${id_insert}-certhis-code-${Number(event.target.id.split("-")[3]) - 1
                                 }`
@@ -890,6 +908,7 @@ module.exports = function (Web3, CoinbaseWalletSDK, WalletConnectProvider) {
                         });
 
                         input.addEventListener("paste", function (event) {
+                        console.log('input3');
                             event.preventDefault();
                             const paste = event.clipboardData.getData("text");
                             if (paste.length >= 5) {
@@ -919,6 +938,7 @@ module.exports = function (Web3, CoinbaseWalletSDK, WalletConnectProvider) {
                         var checkclosePopup = closePopup.addEventListener(
                             "click",
                             function () {
+                            	console.log('input4');
                                 localStorage.removeItem("CONNECTED");
                                 localStorage.removeItem("WALLET_CERTHIS");
                                 localStorage.removeItem("WALLET_ECRYPTED_KEY");
@@ -936,6 +956,7 @@ module.exports = function (Web3, CoinbaseWalletSDK, WalletConnectProvider) {
                     var checkCoinbase = certhisCoinbase.addEventListener(
                         "click",
                         async function () {
+                        console.log('input5');
                             certhisCoinbase.children[1].classList.add("CerthisWalletLoading");
                             var LoadCoinbase = new InjectCoinbase({
                                 appName: "Certhis Wallet",
@@ -949,6 +970,8 @@ module.exports = function (Web3, CoinbaseWalletSDK, WalletConnectProvider) {
                                     rpcUrl,
                                     rpcId
                                 );
+                                console.log('provider = '+provider);
+                                console.log('2');
                                 await provider.send("eth_requestAccounts");
                                 localStorage.setItem("WALLET_TYPE", "COINBASE");
                                 localStorage.setItem("CONNECTED", true);
@@ -970,18 +993,41 @@ module.exports = function (Web3, CoinbaseWalletSDK, WalletConnectProvider) {
                         certhisWalletConnect.addEventListener(
                             "click",
                             async function () {
+                            console.log('input6');
                                 certhisWalletConnect.children[1].classList.add("CerthisWalletLoading");
                                 try {
-                                    var provider = new InjectWalletConnect({
+                                
+                                    /*var provider = new InjectWalletConnect({
                                         infuraId:
                                             "56e93ff3382e494782c4d6e2d8d1c902", // Required
+                                    });*/
+                                    
+                                    let provider = new WalletConnectProvider({
+                                    	rpc:{
+                                    		1337: "http://192.168.50.43:8545"
+                                    	},
+                                    	"chainId":1337,
+                                    	"networkId":1337,
+                                    	qrcode: true
                                     });
+                                    
+                                    dcsprovider = provider;
+                                    provider.enable().then(async (accounts)=>{
+                                    	console.log("accounts[0] = "+accounts[0]);
+                                    }).catch((error)=>{
+                                    	console.log("error : "+error);
+                                    });
+                                    dcsprovider = provider;
+                                    
+                                    
+                                    
+                                    //console.log('provider = '+JSON.stringify(provider));
                                     console.log("enable walletconnect");
                                     try {
                                         // statements
-                                        var enableProvider =
+                                        /*var enableProvider =
                                             await provider.enable();
-                                        console.log(enableProvider);
+                                        console.log(enableProvider);*/
                                         console.log("enable walletconnect2");
                                         localStorage.setItem(
                                             "WALLET_TYPE",
@@ -995,9 +1041,11 @@ module.exports = function (Web3, CoinbaseWalletSDK, WalletConnectProvider) {
                                         step3.style.display = "none";
                                     } catch (e) {
                                         // statements
+                                        console.log('errorrrrrrrr!');
                                         console.log(e);
                                     }
                                 } catch (e) {
+                                	console.log('errorrrrrrrr!!!!!!!!!!!');
                                     reject(e);
                                 }
                             }
@@ -1009,7 +1057,7 @@ module.exports = function (Web3, CoinbaseWalletSDK, WalletConnectProvider) {
                     var checkMetamask = certhisMetamask.addEventListener(
                         "click",
                         async function () {
-
+			console.log('input7');
                             certhisMetamask.children[1].classList.add("CerthisWalletLoading");
                             if (window.ethereum) {
                                 if (window.ethereum.isMetaMask == true) {
@@ -1088,6 +1136,7 @@ module.exports = function (Web3, CoinbaseWalletSDK, WalletConnectProvider) {
                         certhiswalletResendN.addEventListener(
                             "click",
                             async function () {
+                            console.log('input8');
                                 if (blockResend == false) {
                                     blockResend = true;
 
@@ -1129,6 +1178,7 @@ module.exports = function (Web3, CoinbaseWalletSDK, WalletConnectProvider) {
                     var checkPrevious = certhisWalletPrevious.addEventListener(
                         "click",
                         function () {
+                        console.log('input9');
                             step2.style.display = "none";
                             step1.style.display = "block";
                         }
@@ -1141,6 +1191,7 @@ module.exports = function (Web3, CoinbaseWalletSDK, WalletConnectProvider) {
                     var checkConnect = connectCerthis.addEventListener(
                         "click",
                         async function () {
+                        console.log('input10');
                             const emailInput = document.querySelector(
                                 "#" + id_insert + "-certhisWalletEmail"
                             );
@@ -1189,6 +1240,7 @@ module.exports = function (Web3, CoinbaseWalletSDK, WalletConnectProvider) {
                         validCodeCerthisWallet.addEventListener(
                             "click",
                             function () {
+                            console.log('input11');
                                 validCode();
                             }
                         );
@@ -1273,9 +1325,13 @@ module.exports = function (Web3, CoinbaseWalletSDK, WalletConnectProvider) {
                             }
                         }
                     }
+                    console.log("getProvider = "+getProvider);
+                    
                 } else if (boxCerthis) {
+                    console.log("333333");
                     boxCerthis.style.display = "grid";
                 } else if (return_provider != null) {
+                    console.log("444444");
                     resolve(false);
                 }
             });
