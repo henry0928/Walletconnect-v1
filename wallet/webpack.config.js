@@ -20,7 +20,7 @@ module.exports = {
   mode: 'production',
   output: {
     path: `${__dirname}`,
-    filename: 'wallet.bundle.js',
+    filename: 'wallet_bundle.js',
     library: 'wallet',
     libraryTarget: 'umd',
     umdNamedDefine: true,

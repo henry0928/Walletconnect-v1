@@ -8,12 +8,14 @@
 </head>
 
 <body>
-    <script type="text/javascript" src="wallet.bundle.js"></script>
+    <script type="text/javascript" src="wallet_bundle.js"></script>
     <script>
         async function f() {
-            const temp = await wallet.run();
+            const temp = await wallet.handleConnect();
             alert(temp.account);
-            alert(temp.signature);
+            const signature = await wallet.handleSignmessage("DID");
+            alert(signature);
+            //alert(temp.signature);
         }
 
         f();

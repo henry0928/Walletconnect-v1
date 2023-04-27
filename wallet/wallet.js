@@ -11,6 +11,7 @@ const rpc = "http://192.168.50.43:8545/";
 var dcsprovider;
 
 async function handleConnect() {
+    //alert("handleconnect valid") ;
     await handleDisconnect();
     var chainid = 1337 ;
     console.log('chainid = '+ chainid);
@@ -21,6 +22,7 @@ async function handleConnect() {
     if (provider) {
         const web3 = new Web3(provider);
         const account = (await web3.eth.getAccounts())[0];
+        alert( "account valid" ) ;
         const balanceInWei = await web3.eth.getBalance(account);
         const balanceInEther = web3.utils.fromWei(balanceInWei, "ether");
         const networkId = await web3.eth.net.getId();

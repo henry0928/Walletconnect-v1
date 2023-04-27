@@ -1,7 +1,7 @@
 .PHONY: all clean
 
 SRC=wallet.js @certhis/certhis-wallet/lib/*.js webpack.config.js
-TARGET=wallet.bundle.js
+TARGET=wallet_bundle.js
 
 all: $(TARGET)
 
